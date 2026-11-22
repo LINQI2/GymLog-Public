@@ -1,0 +1,17 @@
+<view
+  wx:if="{{visible}}"
+  class="bar"
+  style="{{aboveTabBar ? 'bottom: calc(112rpx + env(safe-area-inset-bottom));' : ''}}"
+>
+  <view class="inner">
+    <view class="left" bindtap="onDuration" hover-class="press">
+      <text class="time">{{timeText}}</text>
+      <text class="hint {{done ? 'hint-done' : ''}}">{{statusText}}</text>
+    </view>
+    <view class="actions">
+      <view class="act" bindtap="onToggle" hover-class="press">{{running ? '暂停' : '继续'}}</view>
+      <view class="act" bindtap="onRestart" hover-class="press">重开</view>
+      <view class="act" bindtap="onSkip" hover-class="press">跳过</view>
+    </view>
+  </view>
+</view>

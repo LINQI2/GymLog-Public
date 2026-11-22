@@ -1,0 +1,43 @@
+<gym-sheet show="{{show}}" title="{{title}}" bind:close="onClose">
+  <view class="wrap">
+    <input
+      class="input"
+      placeholder="搜索动作名称"
+      value="{{keyword}}"
+      bindinput="onSearch"
+      confirm-type="search"
+    />
+
+    <scroll-view scroll-x class="chips" enhanced show-scrollbar="{{false}}">
+      <view
+        class="chip {{category === 'all' ? 'chip-active' : ''}}"
+        data-category="all"
+        bindtap="onCategory"
+      >全部</view>
+      <view
+        wx:for="{{categories}}"
+        wx:key="*this"
+        class="chip {{category === item ? 'chip-active' : ''}}"
+        data-category="{{item}}"
+        bindtap="onCategory"
+      >{{item}}</view>
+    </scroll-view>
+
+    <view class="list">
+      <view
+        class="item"
+        wx:for="{{list}}"
+        wx:key="id"
+        data-id="{{item.id}}"
+        data-name="{{item.name}}"
+        bindtap="onPick"
+        hover-class="item-hover"
+      >
+        <text class="cat">{{item.category}}</text>
+        <text class="name">{{item.name}}</text>
+        <text class="plus">+</text>
+      </view>
+      <view wx:if="{{!list.length}}" class="empty-tip">没有找到动作</view>
+    </view>
+  </view>
+</gym-sheet>

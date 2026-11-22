@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "今日训练",
+  "usingComponents": {
+    "workout-editor": "../../components/workout-editor/index",
+    "rest-bar": "../../components/rest-bar/index"
+  }
+}

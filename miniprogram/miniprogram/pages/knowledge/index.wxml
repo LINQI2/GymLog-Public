@@ -1,0 +1,163 @@
+<view class="page">
+  <view class="head card">
+    <view class="head-text">
+      <text class="head-title">知识</text>
+      <text class="head-sub">模板 {{counts.templates}} · 文章 {{counts.articles}} · 替代 {{counts.substitutions}}</text>
+    </view>
+    <view class="head-add" bindtap="onCreate" hover-class="press">+</view>
+  </view>
+
+  <view class="search card">
+    <input
+      class="search-input"
+      placeholder="搜索模板、动作或文章"
+      value="{{keyword}}"
+      bindinput="onSearch"
+      confirm-type="search"
+    />
+  </view>
+
+  <scroll-view scroll-x class="chips" enhanced show-scrollbar="{{false}}">
+    <view
+      wx:for="{{sections}}"
+      wx:key="value"
+      class="chip {{section === item.value ? 'chip-active' : ''}}"
+      data-value="{{item.value}}"
+      bindtap="onSection"
+    >{{item.label}}</view>
+  </scroll-view>
+
+  <!-- 训练方案 -->
+  <block wx:if="{{section === 'templates'}}">
+    <view wx:if="{{!templates.length}}" class="empty">
+      <text class="empty-title">{{keyword ? '没有匹配的训练方案' : '还没有训练方案'}}</text>
+      <text class="empty-desc">新建一个方案，把动作和大概的组数次数填进去，训练时一键加进当天。</text>
+    </view>
+    <view wx:else class="list">
+      <view
+        class="item card"
+        wx:for="{{templates}}"
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="openTemplate"
+        hover-class="item-hover"
+      >
+        <view class="item-top">
+          <text class="item-title">{{item.name}}</text>
+          <text class="badge" wx:if="{{item.builtin}}">示例</text>
+          <text class="star" wx:if="{{item.isFavorite}}">★</text>
+        </view>
+        <text class="item-sub">{{item.subText}}</text>
+        <text class="item-preview" wx:if="{{item.preview}}">{{item.preview}}</text>
+        <text class="item-desc" wx:if="{{item.description}}">{{item.description}}</text>
+      </view>
+    </view>
+  </block>
+
+  <!-- 动作替代 -->
+  <block wx:elif="{{section === 'substitutions'}}">
+    <view class="create-tip" bindtap="pickForSubstitution" hover-class="item-hover">
+      + 新建替代关系（全部保存在本机）
+    </view>
+    <view wx:if="{{!exercises.length}}" class="empty">
+      <text class="empty-title">没有匹配的动作</text>
+      <text class="empty-desc">可以先去「动作」页添加动作。</text>
+    </view>
+    <view wx:else class="list card">
+      <view
+        class="row"
+        wx:for="{{exercises}}"
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="openExercise"
+        hover-class="item-hover"
+      >
+        <text class="row-tag">{{item.category}}</text>
+        <view class="row-main">
+          <text class="row-name">{{item.name}}</text>
+          <text class="row-sub">
+            {{item.movementPattern ? item.movementPattern + ' · ' : ''}}{{item.subCount ? item.subCount + ' 个替代' : '暂无替代'}}
+          </text>
+        </view>
+        <text class="row-arrow">›</text>
+      </view>
+    </view>
+  </block>
+
+  <!-- 健身原理 -->
+  <block wx:elif="{{section === 'articles'}}">
+    <view wx:if="{{!articles.length}}" class="empty">
+      <text class="empty-title">{{keyword ? '没有匹配的文章' : '还没有知识文章'}}</text>
+      <text class="empty-desc">内容保存在本机，可随时编辑；涉及身体状况请以专业意见为准。</text>
+    </view>
+    <view wx:else class="list">
+      <view
+        class="item card"
+        wx:for="{{articles}}"
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="openArticle"
+        hover-class="item-hover"
+      >
+        <view class="item-top">
+          <text class="item-title">{{item.title}}</text>
+          <text class="star" wx:if="{{item.isFavorite}}">★</text>
+        </view>
+        <view class="item-meta">
+          <text class="badge">{{item.category}}</text>
+          <text class="badge warn" wx:if="{{item.needsReview}}">待审核</text>
+          <text class="item-date">{{item.dateText}}</text>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 收藏 -->
+  <block wx:else>
+    <view class="fav-title">收藏的模板</view>
+    <view wx:if="{{!favTemplates.length}}" class="fav-empty">还没有收藏模板，在模板详情里点「收藏」。</view>
+    <view wx:else class="list">
+      <view
+        class="item card"
+        wx:for="{{favTemplates}}"
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="openTemplate"
+        hover-class="item-hover"
+      >
+        <view class="item-top">
+          <text class="star">★</text>
+          <text class="item-title">{{item.name}}</text>
+        </view>
+        <text class="item-sub">{{item.subText}}</text>
+      </view>
+    </view>
+
+    <view class="fav-title">收藏的文章</view>
+    <view wx:if="{{!favArticles.length}}" class="fav-empty">还没有收藏文章，阅读时点「收藏」。</view>
+    <view wx:else class="list">
+      <view
+        class="item card"
+        wx:for="{{favArticles}}"
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="openArticle"
+        hover-class="item-hover"
+      >
+        <view class="item-top">
+          <text class="star">★</text>
+          <text class="item-title">{{item.title}}</text>
+        </view>
+        <text class="item-sub">{{item.category}}</text>
+      </view>
+    </view>
+  </block>
+</view>
+
+<rest-bar above-tab-bar="{{true}}" />
+<exercise-select
+  show="{{pickerOpen}}"
+  title="选择要添加替代的动作"
+  bind:pick="onPickExercise"
+  bind:close="closePicker"
+/>

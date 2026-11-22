@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "训练方案",
+  "usingComponents": {
+    "exercise-select": "../../components/exercise-select/index"
+  }
+}

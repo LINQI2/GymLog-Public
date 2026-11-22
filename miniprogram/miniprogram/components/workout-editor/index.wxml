@@ -1,0 +1,326 @@
+<view class="editor-root">
+  <!-- 日期 -->
+  <view class="date-bar card">
+    <view
+      wx:if="{{!fixedDate && !fixedDateView}}"
+      class="date-nav"
+      bindtap="onPrevDay"
+      hover-class="press"
+    >‹</view>
+    <picker
+      mode="date"
+      value="{{currentDate}}"
+      start="2000-01-01"
+      end="2100-12-31"
+      bindchange="onPickDate"
+      class="date-picker"
+    >
+      <view class="date-main">
+        <text class="date-text">{{dateLabel}}</text>
+        <text class="date-sub">{{relativeLabel || '点击选择日期'}}</text>
+      </view>
+    </picker>
+    <view
+      wx:if="{{!fixedDate && !fixedDateView}}"
+      class="date-nav"
+      bindtap="onNextDay"
+      hover-class="press"
+    >›</view>
+  </view>
+
+  <!-- 统计 -->
+  <view class="stats card">
+    <view class="stat">
+      <text class="stat-num">{{stats.exerciseCount}}</text>
+      <text class="stat-label">动作</text>
+    </view>
+    <view class="stat">
+      <text class="stat-num">{{stats.setCount}}</text>
+      <text class="stat-label">总组数</text>
+    </view>
+    <view class="stat">
+      <text class="stat-num">{{stats.volumeText}}</text>
+      <text class="stat-label">总容量</text>
+    </view>
+  </view>
+
+  <view class="meta-line" wx:if="{{entries.length}}">
+    <text>开始 {{startLabel || '—'}}</text>
+    <text wx:if="{{stats.reps}}"> · 共 {{stats.reps}} 次</text>
+  </view>
+
+  <!-- 当日备注 -->
+  <view class="note-card" bindtap="openNote" hover-class="row-hover">
+    <view class="note-head">
+      <view class="ic ic-note sm note-ic"></view>
+      <text class="note-title">当日备注</text>
+      <text class="note-action">{{note ? '编辑' : '添加'}}</text>
+    </view>
+    <text class="note-text" wx:if="{{note}}">{{note}}</text>
+    <text class="note-empty" wx:else>记录睡眠、状态、器械调整等，只保存在这一天</text>
+  </view>
+
+  <view class="quick-actions">
+    <button class="btn btn-primary flex-1" bindtap="openPicker" hover-class="btn-hover">
+      + 添加动作
+    </button>
+    <button class="btn btn-ghost flex-1" bindtap="openPlan" hover-class="btn-hover">
+      <view class="ic ic-book is-accent sm btn-ic"></view>
+      训练方案
+    </button>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:if="{{!entries.length}}" class="empty">
+    <view class="empty-icon">
+      <view class="ic ic-dumbbell is-accent lg"></view>
+    </view>
+    <text class="empty-title">这一天还没有记录</text>
+    <text class="empty-desc">点上面的「添加动作」，选一个动作后逐组记录重量和次数。</text>
+  </view>
+
+  <!-- 动作卡片 -->
+  <view wx:else class="entry-list">
+    <view class="entry card" wx:for="{{entries}}" wx:key="id" wx:for-item="entry">
+      <view class="entry-head">
+        <view class="entry-info">
+          <text class="entry-name">{{entry.name}}</text>
+          <text class="entry-target" wx:if="{{entry.targetText}}">{{entry.targetText}}</text>
+          <text class="entry-last">{{entry.lastText}}</text>
+        </view>
+        <view
+          class="entry-more"
+          data-entry="{{entry.id}}"
+          bindtap="onEntryMenu"
+          hover-class="press"
+        >⋯</view>
+      </view>
+
+      <view class="sets" wx:if="{{entry.setCount}}">
+        <block wx:for="{{entry.sets}}" wx:key="id" wx:for-item="set">
+          <view
+            class="set-row"
+            data-entry="{{entry.id}}"
+            data-set="{{set.id}}"
+            bindtap="onToggleSet"
+            hover-class="row-hover"
+          >
+            <text class="set-index {{set.isWarmup ? 'warm' : ''}}">{{set.index}}</text>
+            <text class="set-weight">{{set.weightText}}</text>
+            <text class="set-x">×</text>
+            <text class="set-reps">{{set.reps}}</text>
+            <text class="set-unit">次</text>
+            <view class="set-right">
+              <text class="set-volume">{{set.volumeText}}</text>
+              <text class="set-gap" wx:if="{{set.gapText}}">{{set.gapText}}</text>
+            </view>
+          </view>
+
+          <view class="set-editor" wx:if="{{expandedSetId === set.id}}">
+            <view class="editor-row">
+              <text class="editor-label">重量</text>
+              <view
+                class="step"
+                data-entry="{{entry.id}}"
+                data-set="{{set.id}}"
+                data-delta="-0.5"
+                bindtap="stepWeight"
+                hover-class="press"
+              >−</view>
+              <input
+                class="editor-input"
+                type="digit"
+                value="{{set.weightInput}}"
+                data-entry="{{entry.id}}"
+                data-set="{{set.id}}"
+                bindblur="onWeightBlur"
+                bindconfirm="onWeightBlur"
+                confirm-type="done"
+              />
+              <view
+                class="step"
+                data-entry="{{entry.id}}"
+                data-set="{{set.id}}"
+                data-delta="0.5"
+                bindtap="stepWeight"
+                hover-class="press"
+              >+</view>
+              <text class="editor-unit">kg</text>
+            </view>
+
+            <view class="editor-row">
+              <text class="editor-label">次数</text>
+              <view
+                class="step"
+                data-entry="{{entry.id}}"
+                data-set="{{set.id}}"
+                data-delta="-1"
+                bindtap="stepReps"
+                hover-class="press"
+              >−</view>
+              <input
+                class="editor-input"
+                type="number"
+                value="{{set.reps}}"
+                data-entry="{{entry.id}}"
+                data-set="{{set.id}}"
+                bindblur="onRepsBlur"
+                bindconfirm="onRepsBlur"
+                confirm-type="done"
+              />
+              <view
+                class="step"
+                data-entry="{{entry.id}}"
+                data-set="{{set.id}}"
+                data-delta="1"
+                bindtap="stepReps"
+                hover-class="press"
+              >+</view>
+              <text class="editor-unit">次</text>
+            </view>
+
+            <view class="editor-foot">
+              <view
+                class="chip {{set.isWarmup ? 'chip-active' : ''}}"
+                data-entry="{{entry.id}}"
+                data-set="{{set.id}}"
+                bindtap="toggleWarmup"
+              >热身组</view>
+              <view
+                class="editor-delete"
+                data-entry="{{entry.id}}"
+                data-set="{{set.id}}"
+                bindtap="onDeleteSet"
+              >删除该组</view>
+            </view>
+
+            <text class="editor-time" wx:if="{{set.completedText}}">完成于 {{set.completedText}}</text>
+          </view>
+        </block>
+      </view>
+      <view class="entry-empty" wx:else>还没有记录，点下面的按钮记录第一组</view>
+
+      <view class="entry-foot">
+        <button
+          class="btn btn-primary flex-1"
+          data-entry="{{entry.id}}"
+          bindtap="onAddSet"
+          hover-class="btn-hover"
+        >记录一组</button>
+        <view class="entry-count" wx:if="{{entry.setCount}}">
+          <text class="entry-count-num">{{entry.setCount}} 组</text>
+          <text class="entry-count-sub">{{entry.totalReps}} 次</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <entry-detail show="{{detailOpen}}" entry="{{detailEntry}}" bind:close="closeDetail" />
+
+  <!-- 当日备注编辑 -->
+  <gym-sheet show="{{noteOpen}}" title="当日备注" bind:close="closeNote">
+    <textarea
+      class="textarea"
+      value="{{noteDraft}}"
+      bindinput="onNoteInput"
+      maxlength="500"
+      placeholder="例如：今天睡眠不足，卧推降了 5kg；龙门架被占用，换成绳索夹胸"
+    />
+    <button class="btn btn-primary mt-16" bindtap="saveNote">保存备注</button>
+  </gym-sheet>
+
+  <!-- 训练方案 -->
+  <gym-sheet show="{{planOpen}}" title="训练方案" bind:close="closePlan">
+    <view wx:if="{{!planList.length}}" class="plan-empty">
+      还没有训练方案。可以到「知识 → 训练方案」新建，或把今天的动作存成模板（后续版本支持）。
+    </view>
+    <view wx:else class="plan-list">
+      <view
+        class="plan-item"
+        wx:for="{{planList}}"
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="pickPlan"
+        hover-class="row-hover"
+      >
+        <view class="plan-main">
+          <text class="plan-name">{{item.name}}</text>
+          <text class="plan-sub">{{item.subText}}</text>
+          <text class="plan-preview">{{item.preview}}</text>
+        </view>
+        <text class="plan-star" wx:if="{{item.isFavorite}}">★</text>
+        <text class="plan-plus">+</text>
+      </view>
+    </view>
+  </gym-sheet>
+
+  <!-- 添加动作 -->
+  <gym-sheet show="{{pickerOpen}}" title="添加动作" bind:close="closePicker">
+    <view class="picker">
+      <input
+        class="input"
+        placeholder="搜索动作名称"
+        value="{{pickerKeyword}}"
+        bindinput="onPickerSearch"
+        confirm-type="search"
+      />
+
+      <scroll-view scroll-x class="chips" enhanced show-scrollbar="{{false}}">
+        <view
+          class="chip {{pickerCategory === 'all' ? 'chip-active' : ''}}"
+          data-category="all"
+          bindtap="onPickerCategory"
+        >全部</view>
+        <view
+          wx:for="{{categories}}"
+          wx:key="*this"
+          class="chip {{pickerCategory === item ? 'chip-active' : ''}}"
+          data-category="{{item}}"
+          bindtap="onPickerCategory"
+        >{{item}}</view>
+      </scroll-view>
+
+      <view class="picker-list">
+        <view
+          class="picker-item"
+          wx:for="{{pickerList}}"
+          wx:key="id"
+          data-id="{{item.id}}"
+          data-name="{{item.name}}"
+          bindtap="pickExercise"
+          hover-class="row-hover"
+        >
+          <text class="picker-cat">{{item.category}}</text>
+          <text class="picker-name">{{item.name}}</text>
+          <text class="picker-used" wx:if="{{item.used}}">已添加</text>
+          <text class="picker-plus" wx:else>+</text>
+        </view>
+        <view wx:if="{{!pickerList.length}}" class="picker-empty">没有找到动作，可以在下面新建</view>
+      </view>
+
+      <view class="new-box">
+        <text class="new-title">新建动作</text>
+        <input
+          class="input"
+          placeholder="动作名称，例如：反手哑铃侧平举"
+          value="{{newExerciseName}}"
+          bindinput="onNewExerciseName"
+          maxlength="24"
+          confirm-type="done"
+        />
+        <view class="chips wrap">
+          <view
+            wx:for="{{categories}}"
+            wx:key="*this"
+            class="chip {{newExerciseCategory === item ? 'chip-active' : ''}}"
+            data-category="{{item}}"
+            bindtap="onNewExerciseCategory"
+          >{{item}}</view>
+        </view>
+        <button class="btn btn-primary new-btn" bindtap="createNewExercise" hover-class="btn-hover">
+          创建并添加
+        </button>
+      </view>
+    </view>
+  </gym-sheet>
+</view>

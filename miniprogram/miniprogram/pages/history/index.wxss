@@ -1,0 +1,86 @@
+.head {
+  display: flex;
+  align-items: baseline;
+  gap: 12rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.head-num {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #0f9d6e;
+}
+
+.head-label {
+  font-size: 24rpx;
+  color: #6b7482;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 18rpx;
+}
+
+.item {
+  padding: 24rpx;
+}
+
+.item-hover {
+  opacity: 0.85;
+}
+
+.item-top {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.item-title-wrap {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12rpx;
+}
+
+.item-date {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #12161f;
+}
+
+.item-relative {
+  font-size: 22rpx;
+  color: #0f9d6e;
+}
+
+.item-arrow {
+  font-size: 36rpx;
+  color: #9aa4b2;
+  line-height: 1;
+}
+
+.item-summary {
+  display: block;
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  color: #6b7482;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.item-stats {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  margin-top: 10rpx;
+  font-size: 22rpx;
+  color: #6b7482;
+}
+
+.dot {
+  color: #cfd6df;
+}

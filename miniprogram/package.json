@@ -1,0 +1,12 @@
+{
+  "name": "gymlog-miniprogram",
+  "version": "0.2.1",
+  "private": true,
+  "description": "GymLog 健身记录 - 微信原生小程序（本地存储，无服务器）",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "~5.9.0"
+  }
+}

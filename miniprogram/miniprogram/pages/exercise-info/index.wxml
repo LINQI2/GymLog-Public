@@ -1,0 +1,250 @@
+<view class="page">
+  <block wx:if="{{!exercise}}">
+    <view class="empty">
+      <text class="empty-title">动作库里没有「{{name}}」</text>
+      <text class="empty-desc">这个动作可能只存在于历史记录里，或已被删除。可以到「动作」页重新创建后再补充资料。</text>
+    </view>
+  </block>
+
+  <block wx:elif="{{!editing}}">
+    <view class="card head">
+      <text class="name">{{exercise.name}}</text>
+      <view class="meta">
+        <text class="badge">{{exercise.category}}</text>
+        <text class="badge soft" wx:if="{{exercise.equipment}}">{{exercise.equipment}}</text>
+        <text class="badge soft" wx:if="{{exercise.movementPattern}}">{{exercise.movementPattern}}</text>
+      </view>
+    </view>
+
+    <view class="card section">
+      <text class="section-title">动作简介</text>
+      <text class="para" wx:if="{{exercise.description}}">{{exercise.description}}</text>
+      <text class="muted" wx:else>还没有简介，点「编辑动作资料」补充发力要点。</text>
+    </view>
+
+    <view
+      class="card section"
+      wx:if="{{exercise.primaryMuscles.length || exercise.secondaryMuscles.length}}"
+    >
+      <text class="section-title">肌肉</text>
+      <view class="kv">
+        <text class="k">主要</text>
+        <text class="v">{{exercise.primaryMuscles.length ? exercise.primaryMuscles.join('、') : '—'}}</text>
+      </view>
+      <view class="kv">
+        <text class="k">辅助</text>
+        <text class="v">{{exercise.secondaryMuscles.length ? exercise.secondaryMuscles.join('、') : '—'}}</text>
+      </view>
+    </view>
+
+    <view class="card section" wx:if="{{exercise.steps}}">
+      <text class="section-title">动作步骤</text>
+      <text class="para">{{exercise.steps}}</text>
+    </view>
+
+    <view class="card section" wx:if="{{exercise.commonMistakes}}">
+      <text class="section-title">常见错误</text>
+      <text class="para warn">{{exercise.commonMistakes}}</text>
+    </view>
+
+    <view class="card section">
+      <text class="section-title">教学链接</text>
+      <block wx:if="{{exercise.links.length}}">
+        <view
+          class="link"
+          wx:for="{{exercise.links}}"
+          wx:key="id"
+          data-url="{{item.url}}"
+          bindtap="copy"
+          hover-class="item-hover"
+        >
+          <view class="link-main">
+            <text class="link-title">{{item.title || item.url}}</text>
+            <text class="link-url">{{item.url}}</text>
+          </view>
+          <text class="link-copy">复制</text>
+        </view>
+      </block>
+      <text class="muted" wx:else>还没有链接。点编辑可以粘贴抖音/B站分享文案。</text>
+      <text class="tiny">小程序不能直接打开外部 App，点链接会复制到剪贴板。</text>
+    </view>
+
+    <view class="card section">
+      <view class="section-head">
+        <text class="section-title">替代动作</text>
+        <text class="link-action" bindtap="openSubPicker">+ 添加</text>
+      </view>
+
+      <block wx:if="{{subTargets.length}}">
+        <view class="sub" wx:for="{{subTargets}}" wx:key="key">
+          <view class="sub-head">
+            <text class="sub-name">{{item.target.name}}</text>
+            <text class="tag {{item.substitution.similarity === 'close' ? 'tag-close' : 'tag-partial'}}">
+              {{item.substitution.similarity === 'close' ? '较接近' : '部分替代'}}
+            </text>
+          </view>
+          <text class="sub-meta">
+            {{item.target.category}}{{item.substitution.movementPattern ? ' · ' + item.substitution.movementPattern : ''}}{{item.substitution.equipment ? ' · ' + item.substitution.equipment : ''}}
+          </text>
+          <text class="sub-diff">区别：{{item.substitution.difference}}</text>
+          <text class="sub-caution" wx:if="{{item.substitution.caution}}">注意：{{item.substitution.caution}}</text>
+          <text class="sub-del" data-id="{{item.substitution.id}}" bindtap="removeSub">删除这条替代</text>
+        </view>
+      </block>
+      <text class="muted" wx:else>还没有替代建议。同一肌群不等同于完全等效，建议写清区别。</text>
+    </view>
+
+    <view class="card section" wx:if="{{articles.length}}">
+      <text class="section-title">关联知识</text>
+      <view class="row" wx:for="{{articles}}" wx:key="id" data-id="{{item.id}}" bindtap="openArticle">
+        <text class="row-name">{{item.title}}</text>
+        <text class="row-arrow">›</text>
+      </view>
+    </view>
+
+    <view class="card section" wx:if="{{templates.length}}">
+      <text class="section-title">所属训练方案</text>
+      <view class="chips wrap">
+        <text class="tag" wx:for="{{templates}}" wx:key="id" data-id="{{item.id}}" bindtap="openTemplate">{{item.name}}</text>
+      </view>
+    </view>
+
+    <view class="footer">
+      <button class="btn btn-primary" bindtap="startEdit">编辑动作资料</button>
+    </view>
+  </block>
+
+  <block wx:else>
+    <view class="card form">
+      <text class="section-title">动作简介</text>
+      <textarea
+        class="textarea mt-12"
+        value="{{description}}"
+        bindinput="onDesc"
+        maxlength="800"
+        placeholder="发力要点、注意事项，可多行"
+      />
+
+      <view class="field-title">主要肌群 / 辅助肌群</view>
+      <input class="input" value="{{primaryText}}" bindinput="onPrimary" placeholder="主要肌群，用顿号分隔" />
+      <input class="input mt-8" value="{{secondaryText}}" bindinput="onSecondary" placeholder="辅助肌群" />
+
+      <view class="field-title">动作模式</view>
+      <view class="chips wrap">
+        <view
+          wx:for="{{patterns}}"
+          wx:key="*this"
+          class="chip {{pattern === item ? 'chip-active' : ''}}"
+          data-value="{{item}}"
+          bindtap="onPattern"
+        >{{item}}</view>
+      </view>
+
+      <view class="field-title">器械类型</view>
+      <view class="chips wrap">
+        <view
+          wx:for="{{equipments}}"
+          wx:key="*this"
+          class="chip {{equipment === item ? 'chip-active' : ''}}"
+          data-value="{{item}}"
+          bindtap="onEquipment"
+        >{{item}}</view>
+      </view>
+
+      <view class="field-title">动作步骤</view>
+      <textarea
+        class="textarea"
+        value="{{steps}}"
+        bindinput="onSteps"
+        maxlength="1200"
+        placeholder="1. 调整座椅高度&#10;2. 保持肩胛稳定"
+      />
+
+      <view class="field-title">常见错误</view>
+      <textarea
+        class="textarea"
+        value="{{mistakes}}"
+        bindinput="onMistakes"
+        maxlength="800"
+        placeholder="例如：耸肩借力、下背离开靠垫"
+      />
+
+      <view class="field-title">教学链接（最多 8 个）</view>
+      <view class="link-item" wx:for="{{links}}" wx:key="id">
+        <view class="link-main">
+          <text class="link-title">{{item.title || '未命名'}}</text>
+          <text class="link-url">{{item.url}}</text>
+        </view>
+        <text class="sub-del" data-id="{{item.id}}" bindtap="removeLink">删除</text>
+      </view>
+      <input class="input" value="{{linkTitle}}" bindinput="onLinkTitle" maxlength="40" placeholder="链接标题（可选）" />
+      <input
+        class="input mt-8"
+        value="{{linkUrl}}"
+        bindinput="onLinkUrl"
+        placeholder="粘贴链接或整段分享文案"
+      />
+      <button class="btn btn-ghost mt-12" bindtap="addLink">添加到上面的链接列表</button>
+
+      <text class="error" wx:if="{{error}}">{{error}}</text>
+      <text class="tiny">只影响动作资料，不会改动任何训练记录。</text>
+    </view>
+
+    <view class="footer">
+      <button class="btn btn-ghost" bindtap="cancelEdit">取消</button>
+      <button class="btn btn-primary" bindtap="save">保存</button>
+    </view>
+  </block>
+</view>
+
+<exercise-select
+  show="{{pickerOpen}}"
+  title="选择替代动作"
+  bind:pick="onPickTarget"
+  bind:close="closePicker"
+/>
+
+<gym-sheet
+  show="{{subOpen}}"
+  title="新建替代关系"
+  bind:close="closeSub"
+>
+  <view class="sub-form">
+    <view class="sub-target">
+      <text class="k">替代动作</text>
+      <text class="v">{{subTo.name}}</text>
+    </view>
+
+    <view class="field-title">相似程度</view>
+    <view class="chips">
+      <view
+        class="chip {{similarity === 'close' ? 'chip-active' : ''}}"
+        data-value="close"
+        bindtap="onSimilarity"
+      >较接近</view>
+      <view
+        class="chip {{similarity === 'partial' ? 'chip-active' : ''}}"
+        data-value="partial"
+        bindtap="onSimilarity"
+      >部分替代</view>
+    </view>
+    <text class="tiny">同一肌群但动作模式不同的，通常只能算「部分替代」。</text>
+
+    <view class="field-title">主要区别（必填）</view>
+    <textarea
+      class="textarea"
+      value="{{subDifference}}"
+      bindinput="onSubDifference"
+      maxlength="300"
+      placeholder="例如：受力方向由垂直变为水平，背阔肌参与减少"
+    />
+
+    <view class="field-title">所需器械（可选）</view>
+    <input class="input" value="{{subEquipment}}" bindinput="onSubEquipment" maxlength="40" />
+
+    <view class="field-title">注意事项（可选）</view>
+    <input class="input" value="{{subCaution}}" bindinput="onSubCaution" maxlength="120" />
+
+    <button class="btn btn-primary mt-16" bindtap="saveSub">保存替代关系</button>
+  </view>
+</gym-sheet>

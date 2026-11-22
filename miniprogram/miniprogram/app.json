@@ -1,0 +1,52 @@
+{
+  "pages": [
+    "pages/today/index",
+    "pages/history/index",
+    "pages/exercises/index",
+    "pages/knowledge/index",
+    "pages/settings/index",
+    "pages/day/index",
+    "pages/template/index",
+    "pages/article/index",
+    "pages/exercise-info/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "健身记录",
+    "navigationBarBackgroundColor": "#f1f3f7",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f1f3f7",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#6b7482",
+    "selectedColor": "#0f9d6e",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/today/index",
+        "text": "今日"
+      },
+      {
+        "pagePath": "pages/history/index",
+        "text": "历史"
+      },
+      {
+        "pagePath": "pages/exercises/index",
+        "text": "动作"
+      },
+      {
+        "pagePath": "pages/knowledge/index",
+        "text": "知识"
+      },
+      {
+        "pagePath": "pages/settings/index",
+        "text": "设置"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

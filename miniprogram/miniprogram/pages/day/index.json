@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "训练详情",
+  "usingComponents": {
+    "workout-editor": "../../components/workout-editor/index",
+    "rest-bar": "../../components/rest-bar/index"
+  }
+}

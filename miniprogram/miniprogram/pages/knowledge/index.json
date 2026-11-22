@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "知识",
+  "usingComponents": {
+    "rest-bar": "../../components/rest-bar/index",
+    "exercise-select": "../../components/exercise-select/index"
+  }
+}

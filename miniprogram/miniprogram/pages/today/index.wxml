@@ -1,0 +1,4 @@
+<view class="page">
+  <workout-editor />
+</view>
+<rest-bar above-tab-bar="{{true}}" />

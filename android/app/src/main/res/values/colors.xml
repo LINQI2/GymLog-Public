@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#0E1116</color>
+    <color name="colorPrimaryDark">#0B0E13</color>
+    <color name="colorAccent">#34D399</color>
+    <color name="splashBackground">#0E1116</color>
+    <!-- 状态栏/导航栏区域（WebView 内边距）的底色，与页面 canvas 保持一致 -->
+    <color name="appBackground">#F1F3F7</color>
+</resources>

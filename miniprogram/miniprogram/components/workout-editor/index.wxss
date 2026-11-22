@@ -1,0 +1,561 @@
+.editor-root {
+  padding-bottom: 40rpx;
+}
+
+.press {
+  opacity: 0.72;
+}
+
+/* ---------- 日期 ---------- */
+.date-bar {
+  display: flex;
+  align-items: center;
+  padding: 6rpx;
+  margin-bottom: 20rpx;
+}
+
+.date-nav {
+  width: 88rpx;
+  height: 88rpx;
+  line-height: 84rpx;
+  text-align: center;
+  font-size: 46rpx;
+  color: #6b7482;
+}
+
+.date-picker {
+  flex: 1;
+  min-width: 0;
+}
+
+.date-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8rpx 0;
+}
+
+.date-text {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #12161f;
+}
+
+.date-sub {
+  font-size: 22rpx;
+  color: #6b7482;
+  margin-top: 2rpx;
+}
+
+/* ---------- 统计 ---------- */
+.stats {
+  display: flex;
+  align-items: stretch;
+  margin-bottom: 16rpx;
+}
+
+.stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 22rpx 0;
+}
+
+.stat + .stat {
+  border-left: 1rpx solid #e2e6ec;
+}
+
+.stat-num {
+  font-size: 38rpx;
+  font-weight: 700;
+  color: #12161f;
+  letter-spacing: -0.5rpx;
+}
+
+.stat-label {
+  font-size: 22rpx;
+  color: #6b7482;
+  margin-top: 2rpx;
+}
+
+.meta-line {
+  text-align: center;
+  font-size: 22rpx;
+  color: #6b7482;
+  margin-bottom: 16rpx;
+}
+
+.add-btn {
+  width: 100%;
+  margin-bottom: 24rpx;
+}
+
+/* ---------- 动作卡片 ---------- */
+.entry-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.entry {
+  padding: 24rpx 24rpx 20rpx;
+}
+
+.entry-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12rpx;
+}
+
+.entry-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.entry-name {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #12161f;
+}
+
+.entry-target {
+  display: block;
+  margin-top: 4rpx;
+  font-size: 22rpx;
+  color: #0f9d6e;
+  font-weight: 500;
+}
+
+.entry-last {
+  display: block;
+  margin-top: 4rpx;
+  font-size: 21rpx;
+  color: #6b7482;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.entry-more {
+  width: 56rpx;
+  height: 56rpx;
+  line-height: 50rpx;
+  text-align: center;
+  font-size: 36rpx;
+  color: #6b7482;
+  flex-shrink: 0;
+}
+
+/* ---------- 组 ---------- */
+.sets {
+  margin-top: 12rpx;
+}
+
+.set-row {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  padding: 20rpx 12rpx;
+  border-top: 1rpx solid #eef1f5;
+}
+
+.row-hover {
+  background: #f4f6f9;
+}
+
+.set-index {
+  width: 44rpx;
+  height: 44rpx;
+  line-height: 44rpx;
+  text-align: center;
+  border-radius: 12rpx;
+  background: #f4f6f9;
+  color: #6b7482;
+  font-size: 22rpx;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.set-index.warm {
+  background: rgba(183, 121, 31, 0.14);
+  color: #b7791f;
+}
+
+.set-weight,
+.set-reps {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #12161f;
+}
+
+.set-x,
+.set-unit {
+  font-size: 24rpx;
+  color: #6b7482;
+}
+
+.set-right {
+  margin-left: auto;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.set-volume {
+  display: block;
+  font-size: 22rpx;
+  color: #6b7482;
+}
+
+.set-gap {
+  display: block;
+  font-size: 20rpx;
+  color: #9aa4b2;
+}
+
+/* ---------- 组编辑 ---------- */
+.set-editor {
+  padding: 20rpx;
+  margin: 0 4rpx 8rpx;
+  background: #f4f6f9;
+  border-radius: 20rpx;
+}
+
+.editor-row {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  margin-bottom: 14rpx;
+}
+
+.editor-label {
+  width: 64rpx;
+  font-size: 22rpx;
+  color: #6b7482;
+  flex-shrink: 0;
+}
+
+.step {
+  width: 72rpx;
+  height: 72rpx;
+  line-height: 68rpx;
+  text-align: center;
+  border-radius: 16rpx;
+  background: #ffffff;
+  border: 1rpx solid #e2e6ec;
+  font-size: 32rpx;
+  color: #12161f;
+  flex-shrink: 0;
+}
+
+.editor-input {
+  flex: 1;
+  min-width: 0;
+  height: 72rpx;
+  text-align: center;
+  font-size: 30rpx;
+  font-weight: 600;
+  background: #ffffff;
+  border: 1rpx solid #e2e6ec;
+  border-radius: 16rpx;
+}
+
+.editor-unit {
+  width: 44rpx;
+  font-size: 22rpx;
+  color: #6b7482;
+  flex-shrink: 0;
+}
+
+.editor-foot {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-top: 6rpx;
+}
+
+.editor-delete {
+  margin-left: auto;
+  font-size: 22rpx;
+  color: #d64545;
+  padding: 10rpx 16rpx;
+}
+
+.editor-time {
+  display: block;
+  margin-top: 10rpx;
+  font-size: 20rpx;
+  color: #9aa4b2;
+}
+
+.entry-empty {
+  padding: 24rpx 4rpx 8rpx;
+  font-size: 24rpx;
+  color: #6b7482;
+}
+
+.entry-foot {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-top: 18rpx;
+}
+
+.entry-count {
+  text-align: center;
+  padding: 6rpx 16rpx;
+  border-radius: 16rpx;
+  background: #f4f6f9;
+  flex-shrink: 0;
+}
+
+.entry-count-num {
+  display: block;
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #12161f;
+}
+
+.entry-count-sub {
+  display: block;
+  font-size: 20rpx;
+  color: #6b7482;
+}
+
+/* ---------- 选择动作 ---------- */
+.picker {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.chips {
+  display: flex;
+  gap: 12rpx;
+  white-space: nowrap;
+}
+
+.chips.wrap {
+  flex-wrap: wrap;
+  white-space: normal;
+}
+
+.picker-list {
+  margin-top: 4rpx;
+}
+
+.picker-item {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+  padding: 22rpx 8rpx;
+  border-bottom: 1rpx solid #eef1f5;
+}
+
+.picker-cat {
+  width: 56rpx;
+  height: 44rpx;
+  line-height: 44rpx;
+  text-align: center;
+  border-radius: 10rpx;
+  background: rgba(15, 157, 110, 0.1);
+  color: #0f9d6e;
+  font-size: 20rpx;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.picker-name {
+  flex: 1;
+  min-width: 0;
+  font-size: 28rpx;
+  color: #12161f;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.picker-used {
+  font-size: 22rpx;
+  color: #0f9d6e;
+  flex-shrink: 0;
+}
+
+.picker-plus {
+  font-size: 30rpx;
+  color: #9aa4b2;
+  flex-shrink: 0;
+}
+
+.picker-empty {
+  padding: 30rpx 0;
+  text-align: center;
+  font-size: 24rpx;
+  color: #6b7482;
+}
+
+.new-box {
+  margin-top: 8rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #e2e6ec;
+  display: flex;
+  flex-direction: column;
+  gap: 14rpx;
+}
+
+.new-title {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #6b7482;
+}
+
+.new-btn {
+  width: 100%;
+}
+
+/* ---------- 空状态 ---------- */
+.empty-icon {
+  width: 104rpx;
+  height: 104rpx;
+  margin: 0 auto 18rpx;
+  border-radius: 50%;
+  background: rgba(15, 157, 110, 0.1);
+  color: #0f9d6e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-icon .ic {
+  width: 56rpx;
+  height: 56rpx;
+}
+
+/* ---------- 当日备注 ---------- */
+.note-card {
+  padding: 20rpx 24rpx;
+  margin-bottom: 20rpx;
+  border: 1rpx dashed #cfd6df;
+  border-radius: 24rpx;
+  background: transparent;
+}
+
+.note-head {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+}
+
+.note-ic {
+  margin-top: -2rpx;
+}
+
+.btn-ic {
+  margin-right: -2rpx;
+}
+
+.note-title {
+  flex: 1;
+  font-size: 23rpx;
+  font-weight: 600;
+  color: #6b7482;
+}
+
+.note-action {
+  font-size: 21rpx;
+  color: #0f9d6e;
+}
+
+.note-text {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 25rpx;
+  line-height: 1.65;
+  color: #12161f;
+  white-space: pre-wrap;
+}
+
+.note-empty {
+  display: block;
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  color: #9aa4b2;
+}
+
+/* ---------- 训练方案 ---------- */
+.quick-actions {
+  display: flex;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.plan-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.plan-item {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+  padding: 22rpx 8rpx;
+  border-bottom: 1rpx solid #eef1f5;
+}
+
+.plan-item:last-child {
+  border-bottom: none;
+}
+
+.plan-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.plan-name {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #12161f;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.plan-sub {
+  display: block;
+  margin-top: 2rpx;
+  font-size: 21rpx;
+  color: #6b7482;
+}
+
+.plan-preview {
+  display: -webkit-box;
+  margin-top: 4rpx;
+  font-size: 21rpx;
+  line-height: 1.5;
+  color: #12161f;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.plan-star {
+  color: #b7791f;
+  font-size: 26rpx;
+  flex-shrink: 0;
+}
+
+.plan-plus {
+  color: #9aa4b2;
+  font-size: 30rpx;
+  flex-shrink: 0;
+}
+
+.plan-empty {
+  padding: 30rpx 0;
+  text-align: center;
+  font-size: 23rpx;
+  line-height: 1.6;
+  color: #9aa4b2;
+}

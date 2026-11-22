@@ -1,0 +1,30 @@
+<gym-sheet show="{{show}}" title="{{name}} · 训练详情" bind:close="onClose">
+  <view class="wrap">
+    <view class="summary">
+      <view class="summary-item">
+        <text class="label">开始</text>
+        <text class="value">{{startText}}</text>
+      </view>
+      <view class="summary-item">
+        <text class="label">合计</text>
+        <text class="value small">{{totalText}}</text>
+      </view>
+    </view>
+
+    <view wx:if="{{!rows.length}}" class="empty-tip">还没有记录任何一组。</view>
+
+    <view class="rows">
+      <view class="row" wx:for="{{rows}}" wx:key="id">
+        <text class="index {{item.isWarmup ? 'warm' : ''}}">{{item.index}}</text>
+        <text class="weight">{{item.weightText}}</text>
+        <text class="times">× {{item.reps}} 次</text>
+        <view class="right">
+          <text class="time">{{item.completedText}}</text>
+          <text class="gap" wx:if="{{item.gapText}}">{{item.gapText}}</text>
+        </view>
+      </view>
+    </view>
+
+    <text class="tip">时间按手机本地时区显示；旧记录没有完成时间时显示「—」。</text>
+  </view>
+</gym-sheet>

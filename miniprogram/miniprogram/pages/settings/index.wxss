@@ -1,0 +1,106 @@
+.section {
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-top: 16rpx;
+}
+
+.line {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 24rpx 0;
+  border-top: 1rpx solid #eef1f5;
+  margin-top: 8rpx;
+}
+
+.line-hover {
+  opacity: 0.8;
+}
+
+.line-label {
+  flex: 1;
+  min-width: 0;
+  font-size: 28rpx;
+  color: #12161f;
+}
+
+.line-value {
+  font-size: 24rpx;
+  color: #6b7482;
+  flex-shrink: 0;
+}
+
+.stat-line {
+  display: flex;
+  align-items: center;
+  padding: 14rpx 0;
+}
+
+.note {
+  display: block;
+  margin-top: 16rpx;
+  padding: 16rpx;
+  border-radius: 16rpx;
+  background: #f4f6f9;
+  font-size: 21rpx;
+  line-height: 1.6;
+  color: #6b7482;
+}
+
+.about-text {
+  display: block;
+  margin-top: 12rpx;
+  font-size: 23rpx;
+  line-height: 1.7;
+  color: #6b7482;
+}
+
+.about-version {
+  display: block;
+  margin-top: 16rpx;
+  font-size: 21rpx;
+  color: #9aa4b2;
+}
+
+.danger {
+  color: #d64545;
+}
+
+.backup-actions {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 20rpx;
+}
+
+.backup-actions .btn {
+  flex: 1;
+}
+
+.tiny-tip {
+  display: block;
+  margin-top: 12rpx;
+  font-size: 20rpx;
+  line-height: 1.65;
+  color: #9aa4b2;
+}
+
+.import-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.import-info {
+  display: block;
+  padding: 16rpx;
+  border-radius: 16rpx;
+  background: #f4f6f9;
+  font-size: 23rpx;
+  line-height: 1.6;
+  color: #12161f;
+}

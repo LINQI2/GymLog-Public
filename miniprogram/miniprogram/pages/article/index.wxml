@@ -1,0 +1,99 @@
+<view class="page">
+  <block wx:if="{{!editing}}">
+    <view class="card head">
+      <text class="title">{{article.title}}</text>
+      <view class="meta">
+        <text class="badge">{{article.category}}</text>
+        <text class="badge warn" wx:if="{{article.needsReview}}">待审核</text>
+        <text class="date">更新于 {{article.updatedAt.slice(0, 10)}}</text>
+      </view>
+    </view>
+
+    <view class="card body">
+      <block wx:for="{{blocks}}" wx:key="index">
+        <view wx:if="{{item.type === 'h'}}" class="h">{{item.text}}</view>
+        <view wx:elif="{{item.type === 'li'}}" class="li">· {{item.text}}</view>
+        <view wx:elif="{{item.type === 'gap'}}" class="gap"></view>
+        <view wx:else class="p">{{item.text}}</view>
+      </block>
+    </view>
+
+    <view wx:if="{{article.link}}" class="card link" bindtap="copyArticleLink" hover-class="item-hover">
+      <view class="link-main">
+        <text class="link-title">{{linkText}}</text>
+        <text class="link-url">{{article.link.url}}</text>
+      </view>
+      <text class="link-action">复制</text>
+    </view>
+
+    <view wx:if="{{article.exerciseIds.length}}" class="card chips-box">
+      <text class="box-title">关联动作</text>
+      <view class="chips wrap">
+        <block wx:for="{{exercises}}" wx:key="id">
+          <text class="tag" wx:if="{{article.exerciseIds.indexOf(item.id) >= 0}}">{{item.name}}</text>
+        </block>
+      </view>
+    </view>
+
+    <view class="note">
+      内容为一般性训练常识，不构成医疗建议；无法充分验证的表述会标记「待审核」。
+    </view>
+
+    <view class="actions">
+      <view class="act" bindtap="toggleFavorite">{{article.isFavorite ? '★ 已收藏' : '☆ 收藏'}}</view>
+      <view class="act" bindtap="startEdit">编辑</view>
+      <view class="act danger" bindtap="remove">删除</view>
+    </view>
+  </block>
+
+  <block wx:else>
+    <view class="card form">
+      <input class="input" value="{{title}}" bindinput="onTitle" maxlength="60" placeholder="标题" />
+
+      <view class="chips wrap mt-12">
+        <view
+          wx:for="{{categories}}"
+          wx:key="*this"
+          class="chip {{category === item ? 'chip-active' : ''}}"
+          data-value="{{item}}"
+          bindtap="onCategory"
+        >{{item}}</view>
+      </view>
+
+      <textarea
+        class="textarea mt-12"
+        value="{{body}}"
+        bindinput="onBody"
+        maxlength="8000"
+        placeholder="正文，支持「## 小标题」和「- 列表」，空行分段"
+      />
+
+      <view class="field-title">教学链接（可选）</view>
+      <input class="input" value="{{linkTitle}}" bindinput="onLinkTitle" maxlength="40" placeholder="链接标题" />
+      <input
+        class="input mt-8"
+        value="{{linkUrl}}"
+        bindinput="onLinkUrl"
+        placeholder="粘贴链接或分享文案"
+      />
+
+      <view class="field-title">关联动作（可多选）</view>
+      <view class="chips wrap">
+        <view
+          wx:for="{{exercises}}"
+          wx:key="id"
+          class="chip {{exerciseIds.indexOf(item.id) >= 0 ? 'chip-active' : ''}}"
+          data-id="{{item.id}}"
+          bindtap="toggleExercise"
+        >{{item.name}}</view>
+      </view>
+
+      <text class="error" wx:if="{{error}}">{{error}}</text>
+    </view>
+
+    <view class="footer">
+      <button class="btn btn-ghost" bindtap="cancelEdit">取消</button>
+      <button class="btn btn-primary" bindtap="save">保存</button>
+    </view>
+  </block>
+</view>

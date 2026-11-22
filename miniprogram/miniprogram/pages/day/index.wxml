@@ -1,0 +1,4 @@
+<view class="page">
+  <workout-editor wx:if="{{date}}" date="{{date}}" fixed-date="{{true}}" />
+</view>
+<rest-bar />

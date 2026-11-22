@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "动作资料",
+  "usingComponents": {
+    "gym-sheet": "../../components/sheet/index",
+    "exercise-select": "../../components/exercise-select/index"
+  }
+}

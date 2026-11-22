@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "styleIsolation": "apply-shared",
+  "usingComponents": {
+    "gym-sheet": "../sheet/index",
+    "entry-detail": "../entry-detail/index"
+  }
+}

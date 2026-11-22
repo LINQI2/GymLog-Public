@@ -1,0 +1,56 @@
+<view class="page">
+  <view class="search card">
+    <input
+      class="search-input"
+      placeholder="搜索动作"
+      value="{{keyword}}"
+      bindinput="onSearch"
+      confirm-type="search"
+    />
+  </view>
+
+  <scroll-view scroll-x class="chips" enhanced show-scrollbar="{{false}}">
+    <view
+      class="chip {{category === 'all' ? 'chip-active' : ''}}"
+      data-category="all"
+      bindtap="onCategory"
+    >全部</view>
+    <view
+      wx:for="{{categories}}"
+      wx:key="*this"
+      class="chip {{category === item ? 'chip-active' : ''}}"
+      data-category="{{item}}"
+      bindtap="onCategory"
+    >{{item}}</view>
+  </scroll-view>
+
+  <button class="btn btn-primary create-btn" bindtap="onCreate" hover-class="btn-hover">
+    + 新建动作
+  </button>
+
+  <view wx:if="{{!list.length}}" class="empty">
+    <text class="empty-title">{{keyword ? '没有匹配的动作' : '动作库是空的'}}</text>
+    <text class="empty-desc">点上面的「新建动作」添加一个。</text>
+  </view>
+
+  <view wx:else class="list card">
+    <view
+      class="row"
+      wx:for="{{list}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="openInfo"
+      hover-class="row-hover"
+    >
+      <text class="row-cat">{{item.category}}</text>
+      <view class="row-main">
+        <text class="row-name">{{item.name}}</text>
+        <text class="row-sub">{{item.subText}}</text>
+      </view>
+      <text class="row-star" wx:if="{{item.isFavorite}}">★</text>
+      <text class="row-more" data-id="{{item.id}}" catchtap="onMenu">⋯</text>
+    </view>
+  </view>
+</view>
+
+<rest-bar above-tab-bar="{{true}}" />

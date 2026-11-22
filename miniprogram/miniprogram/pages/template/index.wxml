@@ -1,0 +1,107 @@
+<view class="page">
+  <view class="card head">
+    <block wx:if="{{editing}}">
+      <input class="input" value="{{template.name}}" bindblur="onNameBlur" maxlength="30" placeholder="方案名称" />
+      <input
+        class="input mt-12"
+        value="{{template.targetMuscles}}"
+        bindblur="onTargetBlur"
+        maxlength="40"
+        placeholder="目标肌群，例如：肩 · 三角肌中束"
+      />
+      <textarea
+        class="textarea mt-12"
+        value="{{template.description}}"
+        bindblur="onDescBlur"
+        maxlength="500"
+        placeholder="简介 / 备注，可留空"
+      />
+    </block>
+    <block wx:else>
+      <text class="title">{{template.name}}</text>
+      <text class="target">{{template.targetMuscles || '未填写目标肌群'}}</text>
+      <text class="desc" wx:if="{{template.description}}">{{template.description}}</text>
+    </block>
+
+    <view class="meta">
+      <text>{{template.exercises.length}} 个动作</text>
+      <text class="badge" wx:if="{{template.builtin}}">示例</text>
+    </view>
+  </view>
+
+  <view class="ops">
+    <view class="op {{template.isFavorite ? 'op-active' : ''}}" bindtap="toggleFavorite">
+      {{template.isFavorite ? '★ 已收藏' : '☆ 收藏'}}
+    </view>
+    <view class="op" bindtap="duplicate">复制</view>
+    <view class="op" wx:if="{{!editing}}" bindtap="startEdit">编辑</view>
+    <view class="op" wx:else bindtap="finishEdit">完成</view>
+    <view class="op op-danger" bindtap="remove">删除</view>
+  </view>
+
+  <view class="list-head">
+    <text class="list-title">动作（{{selectedCount}}/{{template.exercises.length}}）</text>
+    <text class="link" bindtap="toggleAll">
+      {{selectedCount === template.exercises.length ? '全不选' : '全选'}}
+    </text>
+  </view>
+
+  <view class="list">
+    <view
+      class="item card {{selectedIds.indexOf(item.id) >= 0 ? 'item-on' : ''}}"
+      wx:for="{{template.exercises}}"
+      wx:key="id"
+      wx:for-item="item"
+    >
+      <view class="item-main" data-id="{{item.id}}" bindtap="toggleSelect" hover-class="item-hover">
+        <view class="check {{selectedIds.indexOf(item.id) >= 0 ? 'check-on' : ''}}">
+          {{selectedIds.indexOf(item.id) >= 0 ? '✓' : ''}}
+        </view>
+        <view class="info">
+          <text class="name">{{item.name}}</text>
+          <text class="sub">
+            {{item.sets}} 组 × {{item.repMin === item.repMax ? item.repMin : item.repMin + '–' + item.repMax}} 次{{item.restSeconds ? ' · 休息 ' + item.restSeconds + ' 秒' : ''}}
+          </text>
+          <text class="note" wx:if="{{item.note}}">{{item.note}}</text>
+        </view>
+      </view>
+
+      <view class="edit" wx:if="{{editing}}">
+        <view class="edit-row">
+          <text class="label">组数</text>
+          <input class="mini" type="number" value="{{item.sets}}" data-id="{{item.id}}" bindblur="onSetsBlur" />
+          <text class="label">次数</text>
+          <input class="mini" type="number" value="{{item.repMin}}" data-id="{{item.id}}" bindblur="onRepMinBlur" />
+          <text class="dash">–</text>
+          <input class="mini" type="number" value="{{item.repMax}}" data-id="{{item.id}}" bindblur="onRepMaxBlur" />
+        </view>
+        <view class="edit-ops">
+          <view class="mini-btn" data-id="{{item.id}}" data-delta="-1" bindtap="moveItem">上移</view>
+          <view class="mini-btn" data-id="{{item.id}}" data-delta="1" bindtap="moveItem">下移</view>
+          <view class="mini-btn" data-id="{{item.id}}" bindtap="replaceItem">替换</view>
+          <view class="mini-btn danger" data-id="{{item.id}}" bindtap="removeItem">移除</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="add-row" wx:if="{{editing}}" bindtap="addItem" hover-class="item-hover">
+    + 添加动作
+  </view>
+
+  <view class="tips">
+    添加后只会创建动作卡片，建议组数与次数作为目标显示，不会自动生成已完成的组；
+    当天已存在的同名动作会被跳过，不会覆盖已有记录。
+  </view>
+
+  <view class="footer">
+    <button class="btn btn-primary" bindtap="addToToday">添加到今日训练（{{selectedCount}}）</button>
+  </view>
+</view>
+
+<exercise-select
+  show="{{pickerOpen}}"
+  title="{{pickerTitle}}"
+  bind:pick="onPickExercise"
+  bind:close="closePicker"
+/>

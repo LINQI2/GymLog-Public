@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 深色模式下状态栏/导航栏区域（WebView 内边距）的底色，与页面 canvas 保持一致 -->
+    <color name="appBackground">#0B0E13</color>
+</resources>
